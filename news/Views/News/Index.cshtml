@@ -1,0 +1,74 @@
+﻿@model List<NewsModel>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>News Management</h2>
+
+    <a href="@Url.Action("Create", "News")">Add News</a>
+
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>News Article 1</td>
+            <td>2023-08-21</td>
+            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+        </tr>
+        <tr>
+            <td>News Article 2</td>
+            <td>2023-08-20</td>
+            <td>Nullam in quam nec justo lacinia rhoncus.</td>
+        </tr>
+        <tr>
+            <td>News Article 3</td>
+            <td>2023-08-19</td>
+            <td>Phasellus dignissim ipsum eget magna lacinia, sit amet malesuada libero aliquam.</td>
+        </tr>
+        @foreach (var news in Model)
+        {
+            <tr>
+                <td>@news.Title</td>
+                <td>@news.Date.ToShortDateString()</td>
+                <td>@news.Content</td>
+                <td>
+                    <a href="@Url.Action("Edit", "News", new { id = news.NewsId })">Edit</a> |
+                    <a href="@Url.Action("Delete", "News", new { id = news.NewsId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+</body>
+</html>

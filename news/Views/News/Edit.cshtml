@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model NewsModel
+@using(Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.NewsId)
+
+    @Html.LabelFor(m => m.Title)
+    @Html.EditorFor(m => m.Title)
+
+    @Html.LabelFor(m => m.Content)
+    @Html.EditorFor(m => m.Content)
+
+    @Html.LabelFor(m => m.Date)
+    @Html.EditorFor(m => m.Date)
+
+    <button type="submit">Save Changes</button>
+}

@@ -20,19 +20,26 @@ namespace news.Controllers
             List<NewsModel> newsList = db.News.ToList();
             return View(newsList);
         }
-        public ActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
         public ActionResult Create(NewsModel news)
         {
-            if(ModelState.IsValid)
+            return View(news);
+        }
+        [HttpPost]
+        public ActionResult Create(NewsModel news, IFormFile ImageDataIMG)
+        {
+                using (var memoryStream = new MemoryStream())
+                {
+                    ImageDataIMG.CopyTo(memoryStream);
+                    news.ImageDataIMG = memoryStream.ToArray();
+                }
+            
+            if (ModelState.IsValid)
             {
-                db.News.Add(news);
-                db.SaveChanges();
+                db.News.Add(news); 
+                db.SaveChanges(); 
                 return RedirectToAction("Index");
             }
+
             return View(news);
         }
         public ActionResult Edit(int id)
@@ -41,16 +48,32 @@ namespace news.Controllers
             return View(news);
         }
         [HttpPost]
-        public ActionResult Edit(NewsModel news)
+        public ActionResult Edit(NewsModel news, IFormFile ImageDataIMG)
         {
-            if(ModelState.IsValid)
+       
+                using (var memoryStream = new MemoryStream())
+                {
+                ImageDataIMG.CopyTo(memoryStream);
+                    news.ImageDataIMG = memoryStream.ToArray();
+                }
+
+            if (ModelState.IsValid)
             {
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
-
             }
-            return View(news);
+            else
+            {
+                foreach (var modelStateEntry in ModelState.Values)
+                {
+                    foreach (var error in modelStateEntry.Errors)
+                    {
+                        Debug.WriteLine($"Error: {error.ErrorMessage}");
+                    }
+                }
+            }
+                return View(news);
         }
         public ActionResult Delete(int id)
         {

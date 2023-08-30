@@ -39,6 +39,7 @@
             <th>Title</th>
             <th>Date</th>
             <th>Content</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
         
@@ -48,6 +49,9 @@
                 <td>@news.Title</td>
                 <td>@news.Date.ToShortDateString()</td>
                 <td>@news.Content</td>
+                <td>
+                    <img src="data:image/jpeg;base64,@(news.ImageDataIMG != null ? Convert.ToBase64String(news.ImageDataIMG) : "")" alt="News Image" width="100" height="100" />
+                </td>
                 <td>
                     <a href="@Url.Action("Edit", "News", new { id = news.NewsId })">Edit</a> |
                     <a href="@Url.Action("Delete", "News", new { id = news.NewsId })">Delete</a>
